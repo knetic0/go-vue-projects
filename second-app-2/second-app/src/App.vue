@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container">
-    <input type="text" ref="input" @keydown.enter="listAppend" v-model="header" />
+    <input type="text" ref="input" v-model="header" />
     <button v-on:click="headerYazdir" @click="listAppend">Yazdir</button>
     <h1> {{ header }}</h1>
     <ul>
@@ -19,9 +19,17 @@
       itemList : [],
       search : "",
       socket : "",
+      message : "",
     }},
     mounted() {
       this.socket = new WebSocket("ws://localhost:9100/socket")
+      this.socket.onmessage = (event) => { 
+        this.message = event.data
+        this.fromDatabase(this.message)     
+      }
+    },
+    created() {
+      //console.log(this.socket.onmessage)
     },
     methods: {
       headerYazdir() {
@@ -32,6 +40,9 @@
         this.socket.send(JSON.stringify(msg))
         this.itemList.push(this.$refs.input.value)
         this.header = ""
+      },
+      fromDatabase(data) {
+        this.itemList.push(data)
       }
     }
   }
