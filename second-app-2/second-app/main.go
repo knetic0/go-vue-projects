@@ -49,6 +49,7 @@ func init() {
 	connString := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 	db, err = sql.Open("postgres", connString)
 	CheckError(err)
+	GetDatas()
 }
 
 func Insert(value Message) {
@@ -58,7 +59,7 @@ func Insert(value Message) {
 	fmt.Printf("Rows Affected: %d", resCounter)
 }
 
-func GetDatas() string {
+func GetDatas() {
 	res, err := db.Query("SELECT * FROM todos")
 	CheckError(err)
 	defer res.Close()
@@ -72,9 +73,20 @@ func GetDatas() string {
 	if err = res.Err(); err != nil {
 		log.Fatal(err)
 	}
-
-	return todos[0].Title
 }
+
+/*
+func DeleteVal() {
+	var delmsg Message
+	err := wsConn.ReadJSON(&delmsg)
+	CheckError(err)
+	del, err := db.Exec("DELETE FROM todos WHERE id=$1", delmsg.ID)
+	CheckError(err)
+	delAffected, err := del.RowsAffected()
+	CheckError(err)
+	fmt.Println(delAffected)
+}
+*/
 
 func WsEndpoint(w http.ResponseWriter, r *http.Request) {
 	var err error
@@ -91,10 +103,10 @@ func WsEndpoint(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(GetDatas())
-
-	err = wsConn.WriteMessage(websocket.TextMessage, []byte(GetDatas()))
-	CheckError(err)
+	for _, key := range todos {
+		err = wsConn.WriteMessage(websocket.TextMessage, []byte(key.Title))
+		CheckError(err)
+	}
 
 	defer wsConn.Close()
 
@@ -109,8 +121,10 @@ func WsEndpoint(w http.ResponseWriter, r *http.Request) {
 		}
 
 		fmt.Println("Message Received")
-		Insert(msg)
-		SendMessage("Hello, Client!")
+
+		if msg.Title != "" && msg.Title != " " {
+			Insert(msg)
+		}
 	}
 }
 
