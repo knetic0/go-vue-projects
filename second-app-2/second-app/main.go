@@ -13,6 +13,7 @@ import (
 )
 
 type Message struct {
+	ID    int    `json:"id"`
 	Title string `json:"title"`
 	Done  bool   `json:"done"`
 }
@@ -30,11 +31,12 @@ const (
 	host     = "localhost"
 	port     = "5432"
 	user     = "postgres"
-	password = "<password>"
+	password = "12345"
 	dbname   = "todos"
 )
 
 var db *sql.DB
+var todos []*Message
 
 func CheckError(err error) {
 	if err != nil {
@@ -56,19 +58,43 @@ func Insert(value Message) {
 	fmt.Printf("Rows Affected: %d", resCounter)
 }
 
+func GetDatas() string {
+	res, err := db.Query("SELECT * FROM todos")
+	CheckError(err)
+	defer res.Close()
+
+	for res.Next() {
+		tds := &Message{}
+		err := res.Scan(&tds.ID, &tds.Title, &tds.Done)
+		CheckError(err)
+		todos = append(todos, tds)
+	}
+	if err = res.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return todos[0].Title
+}
+
 func WsEndpoint(w http.ResponseWriter, r *http.Request) {
+	var err error
 
 	wsUpgrader.CheckOrigin = func(r *http.Request) bool {
 		// check the http.Request
 		// make sure it's OK to access
 		return true
 	}
-	var err error
+
 	wsConn, err = wsUpgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Printf("could not upgrade: %s\n", err.Error())
 		return
 	}
+
+	fmt.Println(GetDatas())
+
+	err = wsConn.WriteMessage(websocket.TextMessage, []byte(GetDatas()))
+	CheckError(err)
 
 	defer wsConn.Close()
 
