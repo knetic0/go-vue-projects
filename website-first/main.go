@@ -15,6 +15,8 @@ type Info struct {
 	Mail    string `json:"mail"`
 }
 
+var msg Info
+
 var (
 	wsUpgrader = websocket.Upgrader{
 		ReadBufferSize:  1024,
@@ -38,8 +40,9 @@ func WsEndpoint(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	defer wsConn.Close()
+
 	for {
-		var msg Info
 
 		err := wsConn.ReadJSON(&msg)
 
@@ -52,8 +55,12 @@ func WsEndpoint(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func SendMail() {
+}
+
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", WsEndpoint)
+	fmt.Println("Listening on port 9100...")
 	log.Fatal(http.ListenAndServe(":9100", router))
 }
