@@ -10,7 +10,7 @@
     <div class="p-5 my-2 bg-dark text-white">
         <h1 class="text-center mb-5">Hakkımızda</h1>
         <div class="d-flex">
-            <img class="w-25 rounded-circle" src="../assets/versebytelogo.jpg" alt="Versebyte Logo">
+            <img class="w-50 rounded-circle" src="../assets/versebytelogo.jpg" alt="Versebyte Logo">
             <p class="ms-5 mt-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil illum impedit distinctio voluptate odio quisquam repellendus a, cum veniam qui mollitia perspiciatis. Consequatur maiores cupiditate nulla asperiores quidem deserunt id necessitatibus culpa eaque sit! Nostrum, tempore possimus laboriosam nesciunt provident mollitia molestias, deserunt unde dicta eaque temporibus. Consectetur cum soluta minima eveniet odit veniam, voluptate rem nisi nihil voluptatum numquam cumque architecto minus maiores. Fuga et dicta corrupti, vero velit fugit voluptatibus ea soluta culpa, adipisci voluptates. Exercitationem recusandae accusamus animi sed, praesentium non quam. Corrupti repellendus iusto nesciunt tempore magnam eaque consectetur dolorum officia officiis, eos libero alias ab similique non natus veritatis, delectus nostrum ipsam? Ex corrupti in beatae consequatur voluptatibus quaerat provident maiores sapiente temporibus nam explicabo, laborum ea neque minus quo tempore, nulla reprehenderit animi molestias incidunt porro? Quo neque repudiandae illum hic, doloribus numquam optio, distinctio nesciunt qui debitis nulla mollitia magnam et illo nihil.</p>
         </div>
     </div>
@@ -23,9 +23,9 @@
             <input type="text" class="form-control" placeholder="Adınız" aria-label="Username" aria-describedby="basic-addon1">
         </div>
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Mail Adresiniz" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <input ref="mailarea" type="text" class="form-control" placeholder="Mail Adresiniz" aria-label="Recipient's username" aria-describedby="basic-addon2">
         <div class="input-group-append">
-            <span ref="mailarea" class="input-group-text" id="basic-addon2">@example.com</span>
+            <span class="input-group-text" id="basic-addon2">@example.com</span>
         </div>
         <div class="input-group mt-3">
             <div class="input-group-prepend">
@@ -34,7 +34,7 @@
             <textarea ref="textarea" class="form-control" aria-label="With textarea"></textarea>
         </div>
         <div class="col mt-3 text-center">
-            <button @click="TakeMessage()" type="button" class="btn btn-dark justify-content-center">Gönder</button>
+            <button @click="TakeMessage" type="button" class="btn btn-dark justify-content-center">Gönder</button>
         </div>
 </div>
     </div>
@@ -44,8 +44,24 @@
         Name : "Container",
         data() {
             return {
-
+                socket : "",
+                message : "",
+                mail : "",
             }
+        },
+
+        mounted() {
+            this.socket = new WebSocket("ws://localhost:9100")
+        },
+ 
+        methods : {
+            TakeMessage() {
+                this.message = this.$refs.textarea.value
+                this.mail = this.$refs.mailarea.value
+                let msg = {"message": this.message, "mail": this.mail}
+                console.log(msg)
+                this.socket.send(JSON.stringify(msg))
+            }, 
         }
     }
 </script>
