@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/websocket"
 	_ "github.com/lib/pq"
 
+	gohandlers "github.com/gorilla/handlers"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -38,7 +39,7 @@ const (
 	host     = "localhost"
 	port     = "5432"
 	user     = "postgres"
-	password = "<password>"
+	password = "12345"
 	dbname   = "information"
 )
 
@@ -135,6 +136,7 @@ func GetDatasByEmail(conn *websocket.Conn) {
 func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	var err error
 
+	fmt.Println("Hello World")
 	wsUpgrader.CheckOrigin = func(r *http.Request) bool {
 		return true
 	}
@@ -151,5 +153,6 @@ func main() {
 	router.HandleFunc("/", wsEndpoint)
 	router.HandleFunc("/Signin", SigninEndpoint)
 	router.HandleFunc("/Decrypt", EncEndpoint)
-	log.Fatal(http.ListenAndServe(":9100", router))
+	ch := gohandlers.CORS(gohandlers.AllowedOrigins([]string{"http://localhost:9100"}))
+	log.Fatal(http.ListenAndServe(":9100", ch(router)))
 }
