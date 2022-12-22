@@ -1,0 +1,31 @@
+export const stats_1 = {
+    type: "line",
+    data: {
+        labels: ["Roman", "Aşk", "Tarih", "Polisiye"],
+        datasets: [
+            {
+                label: "Okuduğunuz Kitap Türleri",
+                data: ["12", "8", "20", "4"],
+                backgroundColor: "rgba(54,73,93,.5)",
+                borderColor: "#36495d",
+                borderWidth: 3
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        lineTension: 1,
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        beginAtZero: true,
+                        padding: 25
+                    }
+                }
+            ]
+        }
+    }
+}
+
+export default { stats_1 }; 
