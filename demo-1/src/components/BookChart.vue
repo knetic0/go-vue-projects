@@ -1,26 +1,34 @@
 <template>
-    <div class="row w-100">
-        <div class="col-6 w-50 h-50 bg-light bg-gradient rounded">
-            <div class="ms-5 mt-2">
-                <div class="col-10 row-12 ms-2">
-                    <h1 class="text-center ms-5 mb-3 text-dark">Kitap Türleri & Popülariteleri</h1>
-                    <canvas class="ms-5 h-25" id="book-chart-1"></canvas>
+    <div class="row bg-white text-dark overflow-auto height" style="width: 1247px;">
+        <div class="col-md-6 col-12 h-50 mt-2 rounded mb-5">
+            <div class="mt-5 mb-5">
+                <div class="col-10 mb-5 row-12">
+                    <h3 class="text-center mb-3">Kitap Türleri & Popülariteleri</h3>
+                    <canvas class="" id="book-chart-1"></canvas>
                 </div>
             </div>
         </div>
-        <div class="ms-2 col-6 w-50 h-50 bg-light bg-gradient rounded">
-            <div class="ms-5 mt-2">
-                <div class="col-10 row-12 ms-2">
-                    <h1 class="text-center text-dark">Kütüphanelerdeki Kitap Sayıları</h1>
+        <div class="col-md-6 col-12 h-50 rounded mt-1 mb-5">
+            <div class="ms-5 mt-5 mb-5">
+                <div class="col-10 row-12 ms-2 mt-5 mb-5">
+                    <h3 class="text-center">Kütüphanelerdeki Kitap Sayıları</h3>
                     <canvas class="ms-5 mb-4 mt-2 h-25" id="book-chart-2"></canvas>
                 </div>
             </div>
         </div>
-        <div class="ms-2 col-6 w-50 h-50 bg-light bg-gradient rounded">
-            <div class="ms-5 mt-2">
-                <div class="col-10 row-12 ms-2">
-                    <h1 class="text-center text-dark">Halk Kütüphanlerine Kayıtlı Üye Sayısı ve Yararlanan Kişi Sayısı</h1>
-                    <canvas class="ms-5 mb-5 mt-5 h-25" id="book-chart-3"></canvas>
+        <div class="col-md-6 col-12 rounded mt-5">
+            <div class="mt-5">
+                <div class="mt-5 col-10 row-12">
+                    <h3 class="mt-5 text-center">Halk Kütüphanlerine Kayıtlı Üye Sayısı ve Yararlanan Kişi Sayısı</h3>
+                    <canvas class="mt-5" id="book-chart-3"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-12 rounded mt-5">
+            <div class="ms-5 mt-5">
+                <div class="col-10 mt-5 row-12">
+                    <h3 class="text-center mt-5">Halk Kütüphanlerinin Yıllara Göre Sayısı</h3>
+                    <canvas class="mt-5" id="book-chart-4"></canvas>
                 </div>
             </div>
         </div>
@@ -29,14 +37,14 @@
   
 <script>
   import Chart from 'chart.js/auto'
-  import { bookChartData_1, bookChartData_2, bookChartData_3 } from '../book-data'
+  import { bookChartData_1, bookChartData_2, bookChartData_3, bookChartData_4 } from '../book-data'
   
   export default {
     name: 'BookChart',
 
     data() {
         return {
-            bookChartData: [bookChartData_1, bookChartData_2, bookChartData_3],
+            bookChartData: [bookChartData_1, bookChartData_2, bookChartData_3, bookChartData_4],
             chart : [],
         }
     },
@@ -56,5 +64,7 @@
 </script>
 
 <style scoped>
-
+    .height {
+        height: 100vh;
+    }
 </style>

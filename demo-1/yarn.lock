@@ -2222,7 +2222,7 @@ chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.2:
 
 chart.js@^4.1.1:
   version "4.1.1"
-  resolved "https://registry.npmjs.org/chart.js/-/chart.js-4.1.1.tgz"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-4.1.1.tgz#9bd96ddaa444205ec55dd103f713f65530e9a2df"
   integrity sha512-P0pCosNXp+LR8zO/QTkZKT6Hb7p0DPFtypEeVOf+6x06hX13NIb75R0DXUA4Ksx/+48chDQKtCCmRCviQRTqsA==
   dependencies:
     "@kurkle/color" "^0.3.0"
@@ -5783,6 +5783,11 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
+
+vue-chartjs@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/vue-chartjs/-/vue-chartjs-5.1.0.tgz#54330db7d45b17274e9ca3a37e387848f25c929c"
+  integrity sha512-O/VllsyZn1NzRJAYEbpgfbk/N+EB1nCHLsc/ullPNWuU2YRHxgF5SS8OwWc0K2IfVZNMw94Bp6HUqi2svDQzrQ==
 
 vue-eslint-parser@^8.0.1:
   version "8.3.0"

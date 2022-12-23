@@ -1,11 +1,11 @@
 <template>
-    <div class="w-50 h-50 ms-5 justify-content-center mt-3">
+    <div class="bg-white w-100 text-dark justify-content-center">
         <div class="ms-5">
             <div class="ms-5">
                 <div class="ms-5">
                     <h1 class="ms-5 text-center">Sayın Mehmet Solak, Verileriniz Aşağıdaki Gibidir: </h1>
                 </div>
-                <div class="ms-5 mt-5">
+                <div class="ms-5 w-50 h-50 mt-5">
                     <canvas id="stats-1" class="ms-5"></canvas>
                     <canvas id="stats-2" class="ms-5 mt-5"></canvas>
                 </div>

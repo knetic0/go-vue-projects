@@ -1,19 +1,13 @@
 <template>
-  <div>
+  <div class="bg-primary" style="width:250px; height: 100vh;">
     <header class="header" id="header">
-      <div class="header_toggle">
-        <i class="bx bx-menu mt-4 ms-4" id="header-toggle"></i>
-      </div>
-      <div class="header_img me-5 mt-4">
-        <img src="https://i.imgur.com/hczKIze.jpg" alt="" />
-      </div>
     </header>
     <div class="l-navbar" id="nav-bar">
       <nav class="nav">
-        <div>
+        <div class="text-white">
           <RouterLink to="/" class="nav_logo">
-            <i class="bx bx-layer nav_logo-icon ms-5 mt-2"></i>
-            <span class="nav_logo-name mt-1">Homepage</span>
+            <i class="text-white bx bx-layer nav_logo-icon mt-2"></i>
+            <span class="nav_logo-name text-white mt-1">Homepage</span>
           </RouterLink>
           <div class="nav_list">
             <RouterLink to="/dashboard" class="nav_link active">
@@ -28,14 +22,6 @@
               <i class="bx bx-message-square-detail nav_icon"></i>
               <span class="nav_name">Charts</span>
             </RouterLink>
-            <a href="#" class="nav_link">
-              <i class="bx bx-bookmark nav_icon"></i>
-              <span class="nav_name">Bookmark</span>
-            </a>
-            <a href="#" class="nav_link">
-              <i class="bx bx-folder nav_icon"></i>
-              <span class="nav_name">Files</span>
-            </a>
             <RouterLink to="/stats" class="nav_link">
               <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
               <span class="nav_name">Stats</span>
@@ -43,8 +29,8 @@
           </div>
         </div>
         <a href="#" class="nav_link">
-          <i class="bx bx-log-out nav_icon"></i>
-          <span class="nav_name">SignOut</span>
+          <i class="bx bx-log-out nav_icon text-white"></i>
+          <span class="nav_name text-white">SignOut</span>
         </a>
       </nav>
     </div>
@@ -124,6 +110,7 @@ body {
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   transition: 0.5s;
+  height: 100%;
 }
 a {
   text-decoration: none;
@@ -131,7 +118,7 @@ a {
 .header {
   width: 100%;
   height: var(--header-height);
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   display: flex;
@@ -161,7 +148,7 @@ a {
 .l-navbar {
   position: fixed;
   top: 0;
-  left: -30%;
+  left: 0;
   width: var(--nav-width);
   height: 100vh;
   background-color: var(--first-color);

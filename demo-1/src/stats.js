@@ -6,8 +6,8 @@ export const stats_1 = {
             {
                 label: "Okuduğunuz Kitap Türleri",
                 data: ["12", "8", "20", "4"],
-                backgroundColor: "rgba(54,73,93,.5)",
-                borderColor: "#36495d",
+                backgroundColor: "rgba(79, 65, 101, 0.8)",
+                borderColor: "rgba(79, 65, 101, 0.8)",
                 borderWidth: 3
             }
         ]

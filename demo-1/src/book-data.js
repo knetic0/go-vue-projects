@@ -6,8 +6,8 @@ export const bookChartData_1 = {
         {
           label: "Popülarite",
           data: [417000, 416000, 158000, 598000, 231000, 210000, 164000, 130000],
-          backgroundColor: "rgba(54,73,93,.5)",
-          borderColor: "#36495d",
+          backgroundColor: "rgba(79, 65, 101, 0.8)",
+          borderColor: "rgba(79, 65, 101, 0.8)",
           borderWidth: 3
         },
         {
@@ -84,8 +84,8 @@ export const bookChartData_3 = {
       {
         label: "Kayıtlı Üye Sayısı (Milyon)",
         data: [4.9],
-        backgroundColor: "rgba(54,73,93,.5)",
-        borderColor: "#36495d",
+        backgroundColor: "rgba(79, 65, 101, 0.8)",
+        borderColor: "rgba(79, 65, 101, 0.8)",
         borderWidth: 3
       },
       {
@@ -112,5 +112,46 @@ export const bookChartData_3 = {
     }
   }
 };
+
+export const bookChartData_4 = {
+  type: "line",
+  data: {
+    labels: ["2016", "2017", "2018", "2019", "2020"],
+    datasets: [
+      {
+        label: "Halk Kütüphaneleri",
+        data: [1140, 1160, 1180, 1200, 1220],
+        backgroundColor: "rgba(79, 65, 101, 0.8)",
+        borderColor: "rgba(79, 65, 101, 0.8)",
+        borderWidth: 3
+      },
+    ]
+  },
+  options: {
+    responsive: true,
+    lineTension: 1,
+    scales: {
+      yAxes: [
+        {
+          stacked: true,
+          gridLines : {
+            display: true,
+          },
+          ticks: {
+            beginAtZero: true,
+            padding: 25
+          }
+        }
+      ],
+      xAxes: [
+        {
+          gridLines: {
+            display: true,
+          }
+        }
+      ]
+    }
+  }
+};
   
-export default { bookChartData_1, bookChartData_2, bookChartData_3 };
+export default { bookChartData_1, bookChartData_2, bookChartData_3, bookChartData_4 };
