@@ -4,9 +4,10 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
-	"log"
+	registermodels "backend/registermodels"
 
 	gohandlers "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
@@ -26,14 +27,7 @@ type Book struct {
 	TotalBook  int    `json:'totalbook'`
 }
 
-type User struct {
-	ID       int    `json:'id'`
-	Name     string `json:'name'`
-	Email    string `json:'email'`
-	Password string `json:'password'`
-}
-
-var user_info User
+var user_info registermodels.User
 var books []*Book
 
 const (
@@ -109,16 +103,10 @@ func RegisterEndpoint(w http.ResponseWriter, r *http.Request) {
 		err = connection.ReadJSON(&user_info)
 		CheckError(err)
 		fmt.Println("Success! Informations sended to Database.")
+		fmt.Println(user_info)
+		registermodels.Initialize()
+		registermodels.GetFromRegister(user_info)
 	}
-
-	GetFromRegister(connection)
-}
-
-func GetFromRegister(conn *websocket.Conn) {
-	res, err := registermodels.db.Exec("INSERT INTO register(name, email, password) VALUES($1, $2, $3)", user_info.Name, user_info.Email, user_info.Password)
-	CheckError(err)
-	resAffected, _ := res.RowsAffected()
-	fmt.Printf("Rows affected -> %d", resAffected)
 }
 
 func main() {

@@ -19,6 +19,7 @@
                           type="text"
                           id="form3Example1c"
                           class="form-control"
+                          v-model="name"
                         />
                         <label class="form-label" for="form3Example1c"
                           >Your Name</label
@@ -33,6 +34,7 @@
                           type="email"
                           id="form3Example3c"
                           class="form-control"
+                          v-model="email"
                         />
                         <label class="form-label" for="form3Example3c"
                           >Your Email</label
@@ -47,6 +49,7 @@
                           type="password"
                           id="form3Example4c"
                           class="form-control"
+                          v-model="password"
                         />
                         <label class="form-label" for="form3Example4c"
                           >Password</label
@@ -84,7 +87,7 @@
                     <div
                       class="d-flex justify-content-center mx-4 mb-3 mb-lg-4"
                     >
-                      <button type="button" class="btn btn-primary btn-lg">
+                      <button type="button" v-on:click="SendDatas()" class="btn btn-primary btn-lg">
                         Register
                       </button>
                     </div>
@@ -111,5 +114,25 @@
 <script>
 export default {
   name: "Register",
+
+  data() {
+    return {
+      name : "",
+      email : "",
+      password : "",
+      socket : "",
+    }
+  },
+
+  created() {
+    this.socket = new WebSocket("ws://localhost:9100/register")
+  },
+
+  methods : {
+    SendDatas() {
+      var info = {"name": this.name, "email": this.email, "password": this.password}
+      this.socket.send(JSON.stringify(info))
+    }
+  }
 };
 </script>
