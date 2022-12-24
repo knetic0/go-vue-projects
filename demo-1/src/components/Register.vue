@@ -71,6 +71,21 @@
                       </div>
                     </div>
 
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-calendar fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <input
+                          type="date"
+                          id="form3Example4cf"
+                          class="form-control"
+                          v-model="dateofbirth"
+                        />
+                        <label class="form-label" for="form3Example4c"
+                          >Date of birth</label
+                        >
+                      </div>
+                    </div>
+
                     <div class="form-check d-flex justify-content-center mb-5">
                       <input
                         class="form-check-input me-2"
@@ -120,6 +135,7 @@ export default {
       name : "",
       email : "",
       password : "",
+      dateofbirth : "",
       socket : "",
     }
   },
@@ -130,7 +146,8 @@ export default {
 
   methods : {
     SendDatas() {
-      var info = {"name": this.name, "email": this.email, "password": this.password}
+      var birthyear = this.dateofbirth.split("-")
+      var info = {"name": this.name, "email": this.email, "password": this.password, "birthyear": birthyear[0]}
       this.socket.send(JSON.stringify(info))
     }
   }

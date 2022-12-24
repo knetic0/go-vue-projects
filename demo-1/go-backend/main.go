@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	models "backend/models"
 	registermodels "backend/registermodels"
 
 	gohandlers "github.com/gorilla/handlers"
@@ -17,18 +18,11 @@ import (
 
 var db *sql.DB
 var err error
+var Age *int
 
-type Book struct {
-	ID         int    `json:'id'`
-	BookName   string `json:'bookname'`
-	BookType   string `json:'booktype'`
-	Author     string `json:'author'`
-	Popularity int    `json:'popularity'`
-	TotalBook  int    `json:'totalbook'`
-}
-
-var user_info registermodels.User
-var books []*Book
+var user_info models.User
+var books []*models.Book
+var login_info models.LoginUser
 
 const (
 	host     = "localhost"
@@ -71,13 +65,14 @@ func WsEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func SendDatas(conn *websocket.Conn) {
-	res, err := db.Query("SELECT * FROM chartdatas")
+	fmt.Println("SendDatas", Age)
+	res, err := db.Query("SELECT * FROM chartdatas WHERE agelimit >= $1", Age)
 	CheckError(err)
 	defer res.Close()
 
 	for res.Next() {
-		book_datas := &Book{}
-		err = res.Scan(&book_datas.ID, &book_datas.BookName, &book_datas.BookType, &book_datas.Author, &book_datas.Popularity, &book_datas.TotalBook)
+		book_datas := &models.Book{}
+		err = res.Scan(&book_datas.ID, &book_datas.BookName, &book_datas.BookType, &book_datas.Author, &book_datas.Popularity, &book_datas.TotalBook, &book_datas.AgeLimit)
 		CheckError(err)
 		books = append(books, book_datas)
 	}
@@ -103,16 +98,41 @@ func RegisterEndpoint(w http.ResponseWriter, r *http.Request) {
 		err = connection.ReadJSON(&user_info)
 		CheckError(err)
 		fmt.Println("Success! Informations sended to Database.")
+
+		// time.Now() - int(user_info.Birthyear)
+
 		fmt.Println(user_info)
 		registermodels.Initialize()
 		registermodels.GetFromRegister(user_info)
 	}
 }
 
+func LoginEndpoint(w http.ResponseWriter, r *http.Request) {
+	wsUpgrader.CheckOrigin = func(r *http.Request) bool {
+		return true
+	}
+
+	connection, err = wsUpgrader.Upgrade(w, r, nil)
+	CheckError(err)
+
+	for {
+		err = connection.ReadJSON(&login_info)
+		CheckError(err)
+		fmt.Println("Success! Informations taken!")
+		registermodels.Initialize()
+		control_datas, age := registermodels.TakePasswordWithEmail(login_info)
+		Age = &age
+		err = connection.WriteMessage(websocket.TextMessage, []byte(control_datas))
+		CheckError(err)
+	}
+
+}
+
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/dashboard", WsEndpoint)
 	router.HandleFunc("/register", RegisterEndpoint)
+	router.HandleFunc("/users", LoginEndpoint)
 	ch := gohandlers.CORS(gohandlers.AllowedOrigins([]string{"http://localhost:9100"}))
 	log.Fatal(http.ListenAndServe(":9100", ch(router)))
 }
