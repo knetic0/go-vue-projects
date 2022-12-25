@@ -5,6 +5,7 @@ import Users from "../components/Users.vue"
 import Stats from "../components/Stats.vue"
 import Dashboard from "../components/Dashboard.vue"
 import Register from "../components/Register.vue"
+import Signout from "../components/Signout.vue"
 
 const routes = [
     {
@@ -27,6 +28,10 @@ const routes = [
     {
         path: "/register",
         component: Register
+    },
+    {
+        path: "/signout",
+        component: Signout
     },
 ]
 

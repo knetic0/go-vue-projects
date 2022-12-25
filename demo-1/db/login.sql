@@ -5,6 +5,8 @@ CREATE TABLE IF NOT EXISTS login(
 	age INT NOT NULL
 )
 
+SELECT age FROM login;
+
 SELECT * FROM login;
 
 DELETE FROM login;

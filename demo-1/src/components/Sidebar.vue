@@ -28,10 +28,10 @@
             </RouterLink>
           </div>
         </div>
-        <a href="#" class="nav_link">
+        <RouterLink to="/signout" class="nav_link">
           <i class="bx bx-log-out nav_icon text-white"></i>
           <span class="nav_name text-white">SignOut</span>
-        </a>
+        </RouterLink>
       </nav>
     </div>
     <!--Container Main start-->

@@ -19,7 +19,7 @@ const (
 
 var db *sql.DB
 var err error
-var email string
+var Email string
 
 func CheckError(err error) {
 	if err != nil {
@@ -37,8 +37,8 @@ func Insert(login_information models.LoginUser, age int) {
 	fmt.Println("datalar = ", login_information)
 	res, err := db.Exec("INSERT INTO login(email, password, age) VALUES($1, $2, $3)", login_information.Email, login_information.Password, age)
 	CheckError(err)
-	email = login_information.Email
-	fmt.Println(email)
+	Email = login_information.Email
+	fmt.Println(Email)
 	rowsAffected, _ := res.RowsAffected()
 	fmt.Printf("Rows Affected -> %d", rowsAffected)
 }
@@ -52,4 +52,10 @@ func GetAge() int {
 	fmt.Println(Age)
 
 	return Age
+}
+
+func Signout() {
+	_, err := db.Exec("DELETE FROM login")
+	CheckError(err)
+	fmt.Println("Success! Signout.")
 }
