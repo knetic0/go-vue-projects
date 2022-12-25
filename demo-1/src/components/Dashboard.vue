@@ -45,7 +45,6 @@ export default {
     this.socket = new WebSocket("ws://localhost:9100/dashboard");
     this.socket.onmessage = (event) => {
       var message = JSON.parse(event.data);
-      console.log(message)
       for (let i = 0; i < 8; i++) {
         this.books_type.push(message[i]["BookType"]);
         this.popularity.push(message[i]["Popularity"]);

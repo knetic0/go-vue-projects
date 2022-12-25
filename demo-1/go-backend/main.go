@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	loginmodels "backend/loginmodels"
 	models "backend/models"
 	registermodels "backend/registermodels"
 
@@ -18,7 +19,6 @@ import (
 
 var db *sql.DB
 var err error
-var Age *int
 
 var user_info models.User
 var books []*models.Book
@@ -65,8 +65,9 @@ func WsEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func SendDatas(conn *websocket.Conn) {
-	fmt.Println("SendDatas", Age)
-	res, err := db.Query("SELECT * FROM chartdatas WHERE agelimit >= $1", Age)
+	loginmodels.Initialize()
+	fmt.Println(loginmodels.GetAge())
+	res, err := db.Query("SELECT * FROM chartdatas WHERE agelimit <= $1", loginmodels.GetAge())
 	CheckError(err)
 	defer res.Close()
 
@@ -75,12 +76,11 @@ func SendDatas(conn *websocket.Conn) {
 		err = res.Scan(&book_datas.ID, &book_datas.BookName, &book_datas.BookType, &book_datas.Author, &book_datas.Popularity, &book_datas.TotalBook, &book_datas.AgeLimit)
 		CheckError(err)
 		books = append(books, book_datas)
+		fmt.Println("hello world")
 	}
-
 	books_marshal, _ := json.Marshal(books)
 	err = conn.WriteMessage(websocket.TextMessage, []byte(books_marshal))
 	CheckError(err)
-
 	defer conn.Close()
 }
 
@@ -114,16 +114,18 @@ func LoginEndpoint(w http.ResponseWriter, r *http.Request) {
 
 	connection, err = wsUpgrader.Upgrade(w, r, nil)
 	CheckError(err)
+	defer connection.Close()
 
 	for {
 		err = connection.ReadJSON(&login_info)
 		CheckError(err)
 		fmt.Println("Success! Informations taken!")
 		registermodels.Initialize()
-		control_datas, age := registermodels.TakePasswordWithEmail(login_info)
-		Age = &age
-		err = connection.WriteMessage(websocket.TextMessage, []byte(control_datas))
-		CheckError(err)
+		registermodels.TakePasswordWithEmail(login_info)
+		/*
+			err = connection.WriteMessage(websocket.TextMessage, []byte(control_datas))
+			CheckError(err)
+		*/
 	}
 
 }

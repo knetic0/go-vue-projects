@@ -42,4 +42,6 @@ INSERT INTO chartdatas(bookname, booktype, author, popularity, totalbook, agelim
 	'Oğuz Kağan Destanı', 'Öykü', 'Bilgin Adalı', 130000, 9500, 13
 );
 
+SELECT * FROM chartdatas WHERE agelimit >= 18;
+
 SELECT * FROM chartdatas;

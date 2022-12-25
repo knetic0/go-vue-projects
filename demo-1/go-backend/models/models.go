@@ -22,3 +22,9 @@ type LoginUser struct {
 	Email    string `json:'email'`
 	Password string `json:'password'`
 }
+
+type LoginUserInformation struct {
+	Email    string `json:'email'`
+	Password string `json:'password'`
+	Age      int    `json:'age'`
+}
